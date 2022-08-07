@@ -1,9 +1,27 @@
 .container-send-message{
-    margin-top: 30px;
+    /* margin-top: 30px;
     padding: 5px;
     background: #fff;
     border-radius: 10px 10px 10px 0;
     box-shadow: 0 0 3px 0 #00000073;
-    width: 50%;
+    width: 50%; */
+    margin-top: 10px;
+    float: right;
+    clear: both;
+    border: 0px solid rgb(232, 231, 231);
+    width: 55%;
+    text-align: right;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px 10px 0 10px;
+    box-shadow: 2px 2px 6px 2px rgb(200, 139, 153);
+    background-image: linear-gradient(120deg, #f8f6f7 0%, #fc9bb0 100%);
+    
+    /* 
+   
+    
+    border-radius: 10px 10px 10px 0;
+    
+     */
     }
     

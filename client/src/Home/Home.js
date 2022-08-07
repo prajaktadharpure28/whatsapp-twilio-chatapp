@@ -19,7 +19,7 @@ function Home() {
             setMessage(allMessages.data);
         }
         getMessages();
-    }, trigger);
+    }, [trigger]);
 
     async function sendMessage(){
         console.log(to);

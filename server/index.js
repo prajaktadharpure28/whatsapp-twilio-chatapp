@@ -107,9 +107,9 @@ app.post('/receive', async(req, res)=>{
     //store message to db
     const messageObj = new message({
         sid: req.body.SmsSid,
-        to: req.body.to,
-        from: req.body.from,
-        text: req.body.body,
+        to: req.body.To,
+        from: req.body.From,
+        text: req.body.Body,
         status: req.body.SmsStatus,
         direction: 'incoming',
         createdAt: new Date().toDateString(),
