@@ -19,7 +19,7 @@ function Home() {
             setMessage(allMessages.data);
         }
         getMessages();
-    }, trigger);
+    }, [trigger]);
 
     async function sendMessage(){
         console.log(to);
@@ -79,16 +79,16 @@ export default Home
 
 // function Auth() {
 
-    
+
 //     const [data, setData] = useState([]);
-  
+
 //     const [currentUser, setCurrentUser] = useState("");
-  
+
 //     const [currentMessage, setCurrentMessage] = useState("");
-  
+
 //     const [fetchTrigger, setFetchTrigger] = useState(false);
 
-    
+
 //     useEffect(() => {
 //         async function fetchData() {
 //           const response = await axios.get('/message');
@@ -101,7 +101,7 @@ export default Home
 //          const storedUser = localStorage.getItem("currentUser")
 //          setCurrentUser(storedUser);
 //     },[])
-    
+
 //       function sendMessage() {
 //         axios.post('/message', {
 //           user: currentUser,
@@ -110,9 +110,9 @@ export default Home
 //         })
 //         setCurrentMessage("");
 //         setFetchTrigger(!fetchTrigger);
-    
+
 //       }
-     
+
 //   return (
 //     <div>
 //     <div className='container'>
@@ -124,12 +124,12 @@ export default Home
 //     </div>
 //     <div className='container'>
 //     <div className='box'>
-    
+
 //     {
 //           data.map((item, index) => {
 //             if(item.user === currentUser){
 //               return <OutgoingMessage key={index} user={item.user} message={item.messageBody} />
-              
+
 //             }
 //             else{
 //               return <IncomingMessage key={index} user={item.user} message={item.messageBody} />
@@ -141,7 +141,7 @@ export default Home
 //     </div>
 //     <center>
 //     <div className='msg'>
-        
+
 //     <input type="text" className="form-control mt-3" placeholder="Enter Username..."
 //        onChange={(e)=>{setCurrentUser(e.target.value)}} />
 
@@ -152,10 +152,10 @@ export default Home
 //        <button className="btn btn-primary mt-3"
 //        onClick={sendMessage}>Send</button>
 //         </center>
-   
+
 //        </div>
 //        </div>
-      
+
 //   )
 // }
 

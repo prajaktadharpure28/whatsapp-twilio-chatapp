@@ -9,14 +9,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
 
     // const [data, setData] = useState([]);
-  
+
     // const [currentUser, setCurrentUser] = useState("");
-  
+
     // const [currentMessage, setCurrentMessage] = useState("");
-  
+
     // const [fetchTrigger, setFetchTrigger] = useState(false);
-  
-  
+
+
     // useEffect(() => {
     //   async function fetchData() {
     //     const response = await axios.get('/message');
@@ -24,7 +24,7 @@ function App() {
     //   }
     //   fetchData();
     // }, [fetchTrigger]);
-  
+
     // function sendMessage() {
     //   axios.post('/message', {
     //     user: currentUser,
@@ -33,9 +33,9 @@ function App() {
     //   })
     //   setCurrentMessage("");
     //   setFetchTrigger(!fetchTrigger);
-  
+
     // }
-   
+
 
   return (
     <>
@@ -43,9 +43,9 @@ function App() {
     <Routes>
     {/* <Route path="/LocalStorage" element={<LocalStorage/>} /> */}
     <Route path="/Home" element={<Home/>} />
-    
-  
-    
+
+
+
     </Routes>
     </BrowserRouter>
     {/* <div className='container'>
@@ -61,7 +61,7 @@ function App() {
           data.map((item, index) => {
             if(item.user === currentUser){
               return <SendMessage key={index} user={item.user} message={item.messageBody} />
-              
+
             }
             else{
               return <ReceivedMessage key={index} user={item.user} message={item.messageBody} />
@@ -75,12 +75,12 @@ function App() {
        <input type="text" className="form-control mt-3" placeholder="Enter Message..."
         value={currentMessage}
        onChange={(e)=>{setCurrentMessage(e.target.value)}} />
-       
+
        <button className="btn btn-primary mt-3"
        onClick={sendMessage}>Send</button>
     </div>
 
-    
+
     </div> */}
     </>
   );

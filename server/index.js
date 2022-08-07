@@ -37,7 +37,7 @@ app.get('/health', (req, res)=>{
 app.post("/send", async(req,res)=>{
   const {to, text} = req.body
     //send
-    const response = await axios.post(TWILIO_SEND, 
+    const response = await axios.post(TWILIO_SEND,
         new URLSearchParams({
         From:"whatsapp:+14155238886",
         To:`whatsapp:${to}`,
@@ -58,7 +58,6 @@ app.post("/send", async(req,res)=>{
             direction: 'outgoing',
             createdAt: response.data.date_created,
             updatedAt: response.data.date_updated
-            // StatusCallback: 'https://0a38-2409-4042-220d-3674-a986-ca6d-937a-c74f.in.ngrok.io'
          })
 
          const savedMessage = await messageObj.save()
@@ -107,14 +106,13 @@ app.post('/receive', async(req, res)=>{
     //store message to db
     const messageObj = new message({
         sid: req.body.SmsSid,
-        to: req.body.to,
-        from: req.body.from,
-        text: req.body.body,
+        to: req.body.To,
+        from: req.body.From,
+        text: req.body.Body,
         status: req.body.SmsStatus,
         direction: 'incoming',
         createdAt: new Date().toDateString(),
         updatedAt: new Date().toDateString()
-        // StatusCallback: 'https://0a38-2409-4042-220d-3674-a986-ca6d-937a-c74f.in.ngrok.io'
      })
     await messageObj.save()
 
