@@ -15,7 +15,7 @@ function Home() {
 
     useEffect(() => {
         async function getMessages() {
-            const allMessages = await axios.get("/allMessages");
+            const allMessages = await axios.get("/allMessage");
             setMessage(allMessages.data);
         }
         getMessages();
@@ -36,7 +36,7 @@ function Home() {
         <h1 className='text-center whatsapp mt-2'>Whatsapp Frontend</h1>
         <div className='app_card'>
             {
-                messages.map((message, index) => {
+                messages && messages.map((message, index) => {
                     if(message.direction === "incoming"){
                         return (
                             <IncomingMessage key={index} text={message.text}/>

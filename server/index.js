@@ -2,6 +2,7 @@ const { default: axios } = require('axios');
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config()
+// const axios = require('axios');
 const path = require('path');
 
 const message = require('./models/message')
@@ -28,16 +29,12 @@ const PRIORITY_MAP = {
     "undelivered": 6
 }
 
-app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'))
-});
 
 app.get('/health', (req, res) => {
     res.json({
         success: true,
-        message: 'All Good'
+        // message: 'All Good'
     })
 })
 
@@ -72,8 +69,9 @@ app.post("/send", async (req, res) => {
 
     res.json({
         success: true,
-        data: savedMessage,
-        message: 'Message sent'
+        // data: savedMessage,
+        // message: 'Message sent'
+        data: response.data
     })
 })
 
@@ -84,9 +82,13 @@ app.post('/status_update', async (req, res) => {
         sid: sid
     })
     if (!msgFromDB) {
-        res.send({
-            status: true
+        res.json({
+            data: req.body
         });
+    //    res.send({ 
+    //         status: true
+            
+    //     });
     }
 
     const currentStatus = msgFromDB.status;
@@ -99,19 +101,23 @@ app.post('/status_update', async (req, res) => {
         })
     }
 
-    res.send({
-        status: true
+    // res.send({
+    //     status: true
+    // });
+
+    res.json({
+        data: req.body
     });
 });
 
 app.post('/receive', async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     // console.log(req.params)
     // console.log('message received')
 
     //store message to db
     const messageObj = new message({
-        sid: req.body.SmsSid,
+        sid: req.body.SmsMessageSid,
         to: req.body.To,
         from: req.body.From,
         text: req.body.Body,
@@ -128,10 +134,17 @@ app.post('/receive', async (req, res) => {
     });
 });
 
-app.get('/allMessages', async (req, res) => {
-    const send = await message.find();
-    res.send(send);
+app.get('/allMessage', async (req, res) => {
+    const messages = await message.find();
+    // res.send(send);
+    res.json(messages);
 })
+
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'))
+});
 
 app.listen(PORT, () => {
     console.log('Server started on PORT', PORT)
