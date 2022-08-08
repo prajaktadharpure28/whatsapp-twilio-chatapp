@@ -2,6 +2,7 @@ const { default: axios } = require('axios');
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config()
+const path = require('path');
 
 const message = require('./models/message')
 
@@ -12,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 // mongodb connection
-mongoose.connect(process.env.MONGODB_URI, ()=>{
+mongoose.connect(process.env.MONGODB_URI, () => {
     console.log('connected to MongoDB...')
 })
 
@@ -27,57 +28,62 @@ const PRIORITY_MAP = {
     "undelivered": 6
 }
 
-app.get('/health', (req, res)=>{
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'))
+});
+
+app.get('/health', (req, res) => {
     res.json({
         success: true,
         message: 'All Good'
     })
 })
 
-app.post("/send", async(req,res)=>{
-  const {to, text} = req.body
+app.post("/send", async (req, res) => {
+    const { to, text } = req.body
     //send
-    const response = await axios.post(TWILIO_SEND, 
+    const response = await axios.post(TWILIO_SEND,
         new URLSearchParams({
-        From:"whatsapp:+14155238886",
-        To:`whatsapp:${to}`,
-        Body: text
-    }), {
+            From: "whatsapp:+14155238886",
+            To: `whatsapp:${to}`,
+            Body: text
+        }), {
         auth: {
             username: process.env.ACCOUNT_SID,
             password: process.env.AUTH_TOKEN
-          }
-        });
-         // store message to db
-        const messageObj = new message({
-            sid: response.data.sid,
-            to: response.data.to,
-            from: response.data.from,
-            text: response.data.body,
-            status: response.data.status,
-            direction: 'outgoing',
-            createdAt: response.data.date_created,
-            updatedAt: response.data.date_updated
-            // StatusCallback: 'https://0a38-2409-4042-220d-3674-a986-ca6d-937a-c74f.in.ngrok.io'
-         })
+        }
+    });
+    // store message to db
+    const messageObj = new message({
+        sid: response.data.sid,
+        to: response.data.to,
+        from: response.data.from,
+        text: response.data.body,
+        status: response.data.status,
+        direction: 'outgoing',
+        createdAt: response.data.date_created,
+        updatedAt: response.data.date_updated
+        // StatusCallback: 'https://0a38-2409-4042-220d-3674-a986-ca6d-937a-c74f.in.ngrok.io'
+    })
 
-         const savedMessage = await messageObj.save()
+    const savedMessage = await messageObj.save()
 
-        res.json({
-            success: true,
-            data: savedMessage,
-            message: 'Message sent'
-        })
+    res.json({
+        success: true,
+        data: savedMessage,
+        message: 'Message sent'
+    })
 })
 
-app.post('/status_update', async (req, res)=>{
+app.post('/status_update', async (req, res) => {
     const sid = req.body.MessageSid;
     const newStatus = req.body.MessageStatus;
     const msgFromDB = await message.findOne({
         sid: sid
     })
-    if(!msgFromDB)
-    {
+    if (!msgFromDB) {
         res.send({
             status: true
         });
@@ -85,9 +91,8 @@ app.post('/status_update', async (req, res)=>{
 
     const currentStatus = msgFromDB.status;
 
-    if(PRIORITY_MAP[newStatus] > PRIORITY_MAP[currentStatus])
-    {
-        await message.updateOne({sid: sid}, {
+    if (PRIORITY_MAP[newStatus] > PRIORITY_MAP[currentStatus]) {
+        await message.updateOne({ sid: sid }, {
             $set: {
                 status: newStatus
             }
@@ -99,7 +104,7 @@ app.post('/status_update', async (req, res)=>{
     });
 });
 
-app.post('/receive', async(req, res)=>{
+app.post('/receive', async (req, res) => {
     console.log(req.body)
     // console.log(req.params)
     // console.log('message received')
@@ -115,7 +120,7 @@ app.post('/receive', async(req, res)=>{
         createdAt: new Date().toDateString(),
         updatedAt: new Date().toDateString()
         // StatusCallback: 'https://0a38-2409-4042-220d-3674-a986-ca6d-937a-c74f.in.ngrok.io'
-     })
+    })
     await messageObj.save()
 
     res.send({
@@ -123,11 +128,11 @@ app.post('/receive', async(req, res)=>{
     });
 });
 
-app.get('/allMessages', async(req, res)=>{
+app.get('/allMessages', async (req, res) => {
     const send = await message.find();
     res.send(send);
 })
 
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
     console.log('Server started on PORT', PORT)
 })

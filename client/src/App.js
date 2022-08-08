@@ -42,7 +42,7 @@ function App() {
     <BrowserRouter>
     <Routes>
     {/* <Route path="/LocalStorage" element={<LocalStorage/>} /> */}
-    <Route path="/Home" element={<Home/>} />
+    <Route path="/" element={<Home/>} />
     
   
     

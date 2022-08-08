@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/prajaktadharpure28/whatsapp-twilio-chatapp#readme",
   "dependencies": {
-    "concurrently": "^7.3.0"
+    "concurrently": "^7.3.0",
+    "path": "^0.12.7"
   }
 }
