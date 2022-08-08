@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/prajaktadharpure28/whatsapp-twilio-chatapp/issues"
   },
-  "homepage": "https://github.com/prajaktadharpure28/whatsapp-twilio-chatapp#readme"
+  "homepage": "https://github.com/prajaktadharpure28/whatsapp-twilio-chatapp#readme",
+  "dependencies": {
+    "concurrently": "^7.3.0"
+  }
 }
